@@ -1,0 +1,40 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Kernel: Build (Clang)",
+            "type": "shell",
+            "command": "./.vscode/tasks.sh build-clang",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": "$gcc"
+        },
+        {
+            "label": "Kernel: Build (GCC)",
+            "type": "shell",
+            "command": "./.vscode/tasks.sh build-gcc",
+            "group": "build",
+            "problemMatcher": "$gcc"
+        },
+        {
+            "label": "Kernel: Configure (Clang)",
+            "type": "shell",
+            "command": "./.vscode/tasks.sh configure-clang",
+            "group": "none"
+        },
+        {
+            "label": "Kernel: Configure (GCC)",
+            "type": "shell",
+            "command": "./.vscode/tasks.sh configure-gcc",
+            "group": "none"
+        },
+        {
+            "label": "Kernel: Clean",
+            "type": "shell",
+            "command": "./.vscode/tasks.sh clean",
+            "group": "none"
+        }
+    ]
+}

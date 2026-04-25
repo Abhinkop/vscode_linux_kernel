@@ -1,0 +1,36 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Start and debug kernel in a VM from early-boot",
+            "type": "cppdbg",
+            "request": "launch",
+            "internalConsoleOptions": "neverOpen",
+            "miDebuggerPath": "gdb-multiarch",
+            "miDebuggerServerAddress": "localhost:1234",
+            "setupCommands": [
+                // {
+                //     "description": "Give some time for the VM to spin-up",
+                //     "text": "-interpreter-exec console \"shell ${workspaceFolder}/.vscode/tasks.sh wait-for-vm\"",
+                //     "ignoreFailures": true
+                // },
+                {
+                    "description": "Enable autoloading of Linux GDB scripts",
+                    "text": "add-auto-load-safe-path ${workspaceFolder}/build/scripts/gdb",
+                    "ignoreFailures": true,
+                },
+                {
+                    "description": "Format Locals as HEX by default",
+                    "text": "set output-radix 16",
+                    "ignoreFailures": true,
+                },
+            ],
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/build/vmlinux",
+            "hardwareBreakpoints": {
+                "require": true,
+                "limit": 4
+            },
+        }
+    ]
+}

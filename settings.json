@@ -1,0 +1,9 @@
+{
+    "makefile.configureOnOpen": false,
+    "editor.tabSize": 8,
+    "editor.insertSpaces": false,
+    "editor.detectIndentation": true,
+    "editor.renderWhitespace": "boundary",
+    "files.trimTrailingWhitespace": true,
+    "git.alwaysSignOff": true
+}
