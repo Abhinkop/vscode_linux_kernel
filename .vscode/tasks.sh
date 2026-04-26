@@ -51,6 +51,11 @@ build_ubuntu_local(){
 	make O=${BUILD_DIR} LOCALVERSION=-custom -j$(nproc) bindeb-pkg
 }
 
+install_ubuntu_local(){
+	sudo dpkg -i ${BUILD_DIR}/../linux-headers-*.deb ${BUILD_DIR}/../linux-image-*.deb
+	sudo update-grub
+}
+
 build_ubuntu_local_with_src_tar(){
 	# (Source + Binary)
 	make O=${BUILD_DIR} LOCALVERSION=-custom-with-src -j$(nproc) deb-pkg
@@ -154,6 +159,10 @@ case "${1:-}" in
 	configure-ubuntu-local)
 		shift
 		configure_ubuntu_local
+		;;
+	install-ubuntu-local)
+		shift
+		install_ubuntu_local
 		;;
 	launch-arm-virt)
 		shift
