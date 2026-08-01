@@ -71,6 +71,35 @@
                 "reveal": "always",
                 "panel": "dedicated"
             }
+        },
+        {
+            "label": "Boot QEMU (arm64)",
+            "type": "shell",
+            "command": "qemu-system-aarch64 -M virt -cpu cortex-a57 -smp 2 -m 512 -kernel builds/arm64/arch/arm64/boot/Image -initrd .vscode/rootfs/initramfs.cpio.gz -append 'console=ttyAMA0 rdinit=/init' -nographic",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            },
+            "detail": "Boots the arm64 kernel to a busybox shell. Ctrl-A then X to exit."
+        },
+        {
+            "label": "Boot QEMU (arm64, paused for gdb)",
+            "type": "shell",
+            "command": "qemu-system-aarch64 -M virt -cpu cortex-a57 -smp 2 -m 512 -kernel builds/arm64/arch/arm64/boot/Image -initrd .vscode/rootfs/initramfs.cpio.gz -append 'console=ttyAMA0 rdinit=/init nokaslr' -nographic -s -S",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            },
+            "detail": "Halts at reset with gdbstub on :1234. Run this, then use 'Attach to QEMU (arm64)' in Run and Debug."
+        },
+        {
+            "label": "Build rootfs (busybox initramfs)",
+            "type": "shell",
+            "command": "if [ -d .vscode/rootfs ]; then rm -rf .vscode/rootfs; fi && .vscode/make-rootfs.sh",
+            "problemMatcher": [],
+            "detail": "Generates rootfs/initramfs.cpio.gz. Run once, or after wiping rootfs/."
         }
     ]
 }

@@ -16,7 +16,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     # Build speedups & static analysis
     ccache sparse coccinelle \
     # LLVM/Clang cross toolchain & language server support
-    clang lld llvm llvm-dev clang-tools clangd \
+    clang lld llvm llvm-dev clang-tools clangd libc6-dev-arm64-cross \
+    # arm64 crt objects/libgcc for static-linked cross builds (e.g.
+    # make-rootfs.sh's busybox) — not pulled in by libc6-dev-arm64-cross
+    libgcc-13-dev-arm64-cross \
     # Cross-architecture debugging & execution
     gdb-multiarch qemu-system-arm qemu-system-x86 qemu-utils \
     # Essential kernel utilities & auxiliary build tools

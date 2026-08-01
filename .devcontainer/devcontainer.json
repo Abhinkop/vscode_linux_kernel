@@ -42,7 +42,8 @@
         "MKornelsen.vscode-arm64",
         "nzh21.systemtap-syntax",
         "shardulm94.trailing-spaces",
-        "foxundermoon.shell-format"
+        "foxundermoon.shell-format",
+        "anthropic.claude-code"
       ]
     }
   }
