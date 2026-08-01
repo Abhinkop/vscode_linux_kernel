@@ -1,28 +1,23 @@
 {
   "name": "Linux Kernel Dev (ARM64/VirtIO)",
   "build": {
-    "dockerfile": "Dockerfile",
-    "args": {
-      // Match your host's `id -u` / `id -g` if not 1000/1000, or
-      // bind-mounted files will show up owned by the wrong user on the host.
-      "USER_UID": "1000",
-      "USER_GID": "1000"
-    }
+    "dockerfile": "Dockerfile"
   },
-  "remoteUser": "kdev",
-
+  // The base image's "vscode" user is UID/GID 1000. The Dev Containers CLI
+  // remaps it to match the host user automatically (updateRemoteUserUID
+  // defaults to true) — no manual build args needed.
+  "remoteUser": "vscode",
   // gdb needs ptrace, which Docker's default seccomp profile blocks.
   "runArgs": [
     "--cap-add=SYS_PTRACE",
-    "--security-opt", "seccomp=unconfined"
+    "--security-opt",
+    "seccomp=unconfined"
   ],
-
   // Named volume so ccache survives container rebuilds even though it's
   // not part of the bind-mounted kernel tree.
   "mounts": [
-    "source=kdev-ccache,target=/home/kdev/.cache/ccache,type=volume"
+    "source=kdev-ccache,target=/home/vscode/.cache/ccache,type=volume"
   ],
-
   "customizations": {
     "vscode": {
       // Kernel style / editor settings live in .vscode/settings.json in the
