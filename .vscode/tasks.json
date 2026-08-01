@@ -2,39 +2,75 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Kernel: Build (Clang)",
+            "label": "Config (arm64/LLVM)",
             "type": "shell",
-            "command": "./.vscode/tasks.sh build-clang",
+            "command": "make O=builds/arm64 ARCH=arm64 LLVM=1 defconfig && ./scripts/config --file builds/arm64/.config --enable GDB_SCRIPTS && make O=builds/arm64 ARCH=arm64 LLVM=1 olddefconfig",
+            "problemMatcher": [],
+            "detail": "Generates arm64 defconfig and enables CONFIG_GDB_SCRIPTS (lx-* gdb helpers). Run before 'Build (arm64/LLVM)'."
+        },
+        {
+            "label": "Config (x86_64)",
+            "type": "shell",
+            "command": "make O=builds/x86_64 defconfig && ./scripts/config --file builds/x86_64/.config --enable GDB_SCRIPTS && make O=builds/x86_64 olddefconfig",
+            "problemMatcher": [],
+            "detail": "Generates x86_64 defconfig and enables CONFIG_GDB_SCRIPTS. Run before 'Build (x86_64)'."
+        },
+        {
+            "label": "Build (arm64/LLVM)",
+            "type": "shell",
+            "command": "make O=builds/arm64 ARCH=arm64 LLVM=1 -j$(nproc)",
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
-            "problemMatcher": "$gcc"
+            "problemMatcher": [
+                "$gcc"
+            ]
         },
         {
-            "label": "Kernel: Build (GCC)",
+            "label": "Build (x86_64)",
             "type": "shell",
-            "command": "./.vscode/tasks.sh build-gcc",
+            "command": "make O=builds/x86_64 -j$(nproc)",
             "group": "build",
-            "problemMatcher": "$gcc"
+            "problemMatcher": [
+                "$gcc"
+            ]
         },
         {
-            "label": "Kernel: Configure (Clang)",
+            "label": "Regen compile_commands",
             "type": "shell",
-            "command": "./.vscode/tasks.sh configure-clang",
-            "group": "none"
+            "command": "python3 scripts/clang-tools/gen_compile_commands.py -d builds/arm64",
+            "problemMatcher": []
         },
         {
-            "label": "Kernel: Configure (GCC)",
+            "label": "Sparse: current file",
             "type": "shell",
-            "command": "./.vscode/tasks.sh configure-gcc",
-            "group": "none"
+            "command": "make O=builds/x86_64 C=2 CF='-D__CHECK_ENDIAN__' ${relativeFile}",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            }
         },
         {
-            "label": "Kernel: Clean",
+            "label": "Checkpatch: current file",
             "type": "shell",
-            "command": "./.vscode/tasks.sh clean",
-            "group": "none"
+            "command": "perl scripts/checkpatch.pl --no-tree -f --strict ${relativeFile}",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            }
+        },
+        {
+            "label": "Checkpatch: working diff",
+            "type": "shell",
+            "command": "git diff | perl scripts/checkpatch.pl --no-tree --strict -",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            }
         }
     ]
 }

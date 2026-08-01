@@ -1,9 +1,36 @@
 {
-    "makefile.configureOnOpen": false,
     "editor.tabSize": 8,
     "editor.insertSpaces": false,
     "editor.detectIndentation": true,
     "editor.renderWhitespace": "boundary",
+    "editor.rulers": [
+        80
+    ],
+    "files.associations": {
+        "*.h": "c",
+        "*.c": "c"
+    },
     "files.trimTrailingWhitespace": true,
-    "git.alwaysSignOff": true
+    "files.insertFinalNewline": true,
+    "makefile.configureOnOpen": false,
+    "git.alwaysSignOff": true,
+    "C_Cpp.intelliSenseEngine": "disabled",
+    "C_Cpp.autocomplete": "disabled",
+    "C_Cpp.errorSquiggles": "disabled",
+    "clangd.path": "clangd",
+    "clangd.arguments": [
+        "--background-index",
+        "--compile-commands-dir=${workspaceFolder}",
+        "--header-insertion=never",
+        "--clang-tidy=false"
+    ],
+    "search.exclude": {
+        "**/builds/**": true,
+        "**/.git": true,
+        "Documentation/**": true
+    },
+    "files.watcherExclude": {
+        "**/builds/**": true,
+        "**/.git/**": true
+    }
 }
