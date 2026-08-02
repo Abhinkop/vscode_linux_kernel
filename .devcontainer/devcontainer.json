@@ -14,9 +14,19 @@
     "seccomp=unconfined"
   ],
   // Named volume so ccache survives container rebuilds even though it's
-  // not part of the bind-mounted kernel tree.
+  // not part of the bind-mounted kernel tree. Also bind-mounts just your
+  // host's mutt config file (not the whole ~/.mutt/ dir -- cache/ and
+  // certificates/ in there need to stay writable for header caching and
+  // cert trust updates, and are fine being built fresh inside the
+  // container rather than shared from the host).
+  //
+  // ${localEnv:HOME} resolves on your HOST machine at container-create
+  // time — safe to commit, since it's a path reference, not a secret.
+  // Adjust the source path if your muttrc lives elsewhere (e.g. plain
+  // ~/.muttrc instead of ~/.mutt/muttrc).
   "mounts": [
-    "source=kdev-ccache,target=/home/vscode/.cache/ccache,type=volume"
+    "source=kdev-ccache,target=/home/vscode/.cache/ccache,type=volume",
+    "source=${localEnv:HOME}/.mutt/muttrc,target=/home/vscode/.mutt/muttrc,type=bind,consistency=cached,readonly"
   ],
   "customizations": {
     "vscode": {
